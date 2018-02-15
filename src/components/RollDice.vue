@@ -6,11 +6,8 @@
     </div>
     <div class="dice-block">
     <div class="dice">
-      <div v-for="(val, index) in rollingDiceVal"  class="dice-item valign-text">
-        <template v-for="n in 9">
-          <div class="dice-dot" v-bind:style="{ top: dotTop(n), left : dotLeft(n) }" v-if="showDot(val, n)"></div>
-        </template>
-      </div>
+      <die v-bind:die-val="rollingDiceVal[0]"/>
+      <die v-bind:die-val="rollingDiceVal[1]"/>
     </div>
     <div class="total"><span v-if="!rolling">{{total}}</span></div>
     </div>
@@ -29,6 +26,8 @@ const Chance = require('chance');
 // Instantiate Chance so it can be used
 const chance = new Chance();
 
+import Die from './Die';
+
 export default {
   name: 'RollDice',
   data() {
@@ -40,6 +39,9 @@ export default {
       doubleTextClass: 'double-text',
       rolling: false,
     };
+  },
+  components: {
+		die : Die
   },
   computed: {
     total() {
