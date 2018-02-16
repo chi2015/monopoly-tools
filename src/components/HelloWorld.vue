@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h2>Choose one of monopoly tool on the left menu</h2>
+    <h2>Choose one of monopoly tools below:</h2>
   </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
   name: 'HelloWorld',
   data() {
     return {
-      msg: 'Welcome to Monopoly Tools!',
+      msg: 'Welcome!',
     };
   },
 };
