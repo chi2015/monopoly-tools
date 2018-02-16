@@ -38,17 +38,10 @@
     </v-navigation-drawer>
     <v-toolbar color="indigo" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Application</v-toolbar-title>
+      <v-toolbar-title>Monopoly Tools</v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container fluid fill-width>
-        <v-layout
-          justify-center
-          align-center
-        >
           <router-view/>
-        </v-layout>
-      </v-container>
     </v-content>
     <v-footer color="indigo" app>
       <span class="white--text">&copy; 2017</span>
