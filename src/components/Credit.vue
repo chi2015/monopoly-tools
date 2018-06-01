@@ -122,13 +122,10 @@
   flex-direction: column;
   justify-content: flex-start;
   max-width: 660px;
-  min-height: 100vh;
 }
-
 .main > div {
   width: 100%;
 }
-
 .credit-head {
   font-size: 30px;
   height: 45px;
@@ -138,7 +135,6 @@
   justify-content: center;
   align-items: center;
 }
-
 .credit-summary {
   margin: 5px 0 5px 0;
   display: flex;
@@ -147,12 +143,10 @@
     flex-wrap: wrap;
     align-content: space-around;
 }
-
 .credit-summary > div {
   display: flex;
   flex-direction: row;
 }
-
 .credit-summary > div > div {
   height: 25px;
   width: 140px;
@@ -163,7 +157,6 @@
   margin-right: 2px;
   margin-bottom: 2px;
 }
-
 .credit-btn {
   display: flex;
   flex-direction: column;
@@ -174,21 +167,17 @@
   text-decoration: none;
   color: #000000;
 }
-
 .credit-btn:active {
   filter: brightness(85%);
 }
-
 .c-text {
   text-align: center;
   background-color: #999999;
 }
-
 .c-value {
   text-align: center;
   background-color: #e6b800;
 }
-
 .actions-block {
   display: flex;
   flex-direction: column;
@@ -196,7 +185,6 @@
   align-items: center;
   margin-bottom: 5px;
 }
-
 .pay-block {
   display: flex;
   flex-direction: row;
@@ -206,7 +194,6 @@
   margin-bottom: 5px;
   margin-top: 5px;
 }
-
 .pay-input {
   font-size: 26px;
   height: 36px;
@@ -216,12 +203,10 @@
   border: 1px black solid;
   line-height: normal;
 }
-
 .pay-btn {
   background-color: #ff6600;
   width: 60px;
 }
-
 .next-month-block {
   display: flex;
   flex-direction: row;
@@ -229,61 +214,50 @@
   justify-content: center;
   align-items: center;
 }
-
 .next-month {
   width: 210px;
   background-color: red;
   margin: 5px 10px;
 }
-
 .next-month:first-child {
   background-color:  #ff9999;
 }
-
 .reset-btn {
   background-color: #aaaaaa;
   width: 120px;
 }
-
 .add-credit {
   background-color: #00802b;
   width: 220px;
   margin-bottom: 10px;
 }
-
 .err-credit {
   font-size: 12px;
   font-weight: normal;
   color: red;
   margin: 5px;
 }
-
 .minimal-pay {
   color: #00802b;
   margin-top: 5px;
   margin-left: 20px;
 }
-
 .game-over {
   font-size: 24px;
 }
-
 .credit-clear {
   color: green;
   margin: 10px;
 }
-
 .credit-noclear {
   color: red;
   margin: 10px;
 }
-
 .finish-btn {
   background-color: #99ccff;
   width: 150px;
   margin-bottom: 10px;
 }
-
 .reset-block {
   display: flex;
   flex-direction: row;

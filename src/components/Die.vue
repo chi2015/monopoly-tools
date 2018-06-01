@@ -1,7 +1,7 @@
 <template>
 	<div class="die valign-text">
 		<template v-for="n in 9">
-		  <div class="die-dot" v-bind:style="{ top: dotTop(n), left : dotLeft(n) }" v-if="showDot(dieVal, n)"></div>
+		  <div class="die-dot" v-bind:key="n" v-bind:style="{ top: dotTop(n), left : dotLeft(n) }" v-if="showDot(dieVal, n)"></div>
 		</template>
 	</div>
 </template>

@@ -92,27 +92,6 @@ export default {
     resetDouble() {
       this.doubleCnt = 0;
     },
-    dotTop(n) {
-      const p = 12 + (30 * (Math.ceil(n / 3) - 1));
-      return `${p}%`;
-    },
-    dotLeft(n) {
-      const p = 12 + (30 * ((n - 1) % 3));
-      return `${p}%`;
-    },
-    showDot(v, n) {
-      let dotsArr = [];
-      switch (v) {
-        case 1: dotsArr = [5]; break;
-        case 2: dotsArr = [3, 7]; break;
-        case 3: dotsArr = [3, 5, 7]; break;
-        case 4: dotsArr = [1, 3, 7, 9]; break;
-        case 5: dotsArr = [1, 3, 5, 7, 9]; break;
-        case 6: dotsArr = [1, 3, 4, 6, 7, 9]; break;
-        default: dotsArr = []; break;
-      }
-      return dotsArr.indexOf(n) !== -1;
-    },
   },
 };
 </script>
@@ -181,22 +160,6 @@ export default {
   height: 14%;
 }
 
-.dice-item {
-  background-color: red;
-  position: relative;
-  width: 40%;
-  padding-bottom: 40%;
-  border-radius: 15%;
-}
-
-.dice-dot {
-  background-color: black;
-  border-radius: 50%;
-  position: absolute;
-  width: 20%;
-  height: 20%;
-}
-
 .double-note {
   display: flex;
   flex-direction: column;
@@ -221,10 +184,6 @@ export default {
 .double-reset {
   background-color: #666666;
   color: #aaaaaa;
-}
-  
-.dice-dot {
-  
 }
 
 @media (min-width: 700px) {
@@ -254,7 +213,7 @@ export default {
   
   .main {
     flex-direction: column;
-    height: 100vh;
+    height: 87vh;
   }
   
   .main > div, .roll-buttons > div, .double-note > div {
@@ -285,7 +244,7 @@ export default {
     
   .main {
     flex-direction: row;
-    height: 100vh;
+    height: 87vh;
   }
   
   .main > div, .double-note > div {
