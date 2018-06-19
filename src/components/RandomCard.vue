@@ -60,54 +60,7 @@
         setTimeout(() => {clearInterval(changeCardInterval);}, 5000);
     },
     methods: {
-      pay() {
-        if (this.minPayDone) return;
-        if (this.payVal < this.minimalPay) { this.errPay = true; return; }
-        this.errPay = false;
-        this.credit -= this.payVal;
-        this.minPayDone = true;
-        this.errPayDone = false;
-        if (this.credit <= 0) { this.credit = 0; this.creditClear = true; }
-      },
-      addCredit() {
-        if (this.gotCredit) return;
-        if (this.monthsLeft < 12) { this.errGet = true; return; }
-        this.credit += this.creditVal;
-        this.gotCredit = true;
-        this.creditClear = false;
-      },
-      nextMonthUsual() {
-        this.nextMonth(false);
-      },
-      nextMonthForce() {
-        this.nextMonth(true);
-      },
-      nextMonth(force) {
-        if (!force) {
-          if (this.monthsLeft < 12 && !this.minPayDone) { this.errPayDone = true; return; }
-        }
-        this.errPayDone = false;
-        this.monthsLeft -= 1;
-        this.credit = Math.ceil((this.credit * (100 + this.percent)) / 100);
-        this.errGet = false;
-        this.minPayDone = false;
-        this.gotCredit = false;
-        this.payVal = this.minimalPay;
-      },
-      finishGame() {
-        this.gameOver = true;
-      },
-      reset() {
-        this.monthsLeft = 24;
-        this.credit = 1000;
-        this.payVal = 0;
-        this.errPayDone = false;
-        this.errPay = false;
-        this.errGet = false;
-        this.gameOver = false;
-        this.minPayDone = false;
-        this.creditClear = false;
-      },
+      
     },
   };
 </script>
