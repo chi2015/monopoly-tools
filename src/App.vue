@@ -4,7 +4,7 @@
     <template v-for="tool in tools">
     <router-link class="tool-link" :to="tool.link">{{tool.name}}</router-link>
   </template>  
-    <router-view/>
+    <router-view :credit-data="creditData"/>
   </div>
 </template>-->
 
@@ -25,7 +25,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <template v-for="tool in tools">
-          <v-list-tile @click="tool.goto">
+          <v-list-tile @click="tool.goto" v-bind:key="tool.key">
             <v-list-tile-action>
               <v-icon>contact_mail</v-icon>
             </v-list-tile-action>
@@ -56,17 +56,26 @@ export default {
     return {
       tools: [
         {
+          key : 'rolldice',
           name: 'Roll the Dice',
           link: '/rolldice',
           goto : function() { this.rolldice() }.bind(this)
         },
         {
+          key: 'credit',
           name: 'Calc Credit Line',
           link: '/credit',
           goto: function() { this.credit() }.bind(this)
         },
+        {
+          key: 'randomcard',
+          name: 'Random Card Select',
+          link: '/randomcard',
+          goto: function() { this.randomcard() }.bind(this)
+        },
       ],
       drawer: true,
+      
     };
   },
   props: {
@@ -81,6 +90,9 @@ export default {
     },
     credit() {
       this.$router.push('/credit');
+    },
+    randomcard() {
+      this.$router.push('/randomcard');
     }
   },
 };
@@ -93,7 +105,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
 .tool-link {
