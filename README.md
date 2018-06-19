@@ -6,7 +6,7 @@ $ npm install --global vue-cli
 $ vue init webpack my-project
 $ cd my-project
 
-Copy /src index.html packaga.json from this repo
+Copy /src /static index.html package.json from this repo
 
 # install dependencies and go!
 $ npm install
