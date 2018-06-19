@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
 import RollDice from '@/components/RollDice';
 import Credit from '@/components/Credit';
+import RandomCard from '@/components/RandomCard';
 
 Vue.use(Router);
 
@@ -23,5 +24,10 @@ export default new Router({
       name: 'Credit',
       component: Credit,
     },
+    {
+      path: '/randomcard',
+      name: 'RandomCard',
+      component: RandomCard
+    }
   ],
 });
