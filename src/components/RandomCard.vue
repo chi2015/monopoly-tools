@@ -1,6 +1,18 @@
 <template>
   <div class="main">
-    <div v-bind:class="[cardClass, cards[card]]"/>
+    <v-carousel :hide-controls="true" :hide-delimiters="true"
+        :cycle="false"
+        v-bind:value="card">
+      <v-carousel-item
+        v-for="(card,index) in cards"
+        :key="index"
+        :src="backgroundImg(card)"
+        :class="['monopoly-card', cardClass(card), card]"
+      ></v-carousel-item>
+    </v-carousel>
+    <div class="selected-cards">
+        <div v-for="(card, index) in selectedCards" :key="index" :class="['monopoly-card', cardClass(card), card]"></div>
+    </div>
   </div>
 </template>
 
@@ -13,7 +25,11 @@
   export default {
     data() {
       return {
-        cards: ['kaluga', 
+        cards: [
+                
+                
+                ],
+        cards1: ['kaluga', 
                 'kazan', 
                 'ufa', 
                 'rostov', 
@@ -22,8 +38,8 @@
                 'tomsk',
                 'krasnodar',
                 'archangelsk',
-                'chelyabinsk',
-                'novosibirsk',
+                'chelyabinsk',],
+        cards2: ['novosibirsk',
                 'vodoprovod',
                 'electro',
                 'stavropol',
@@ -32,42 +48,64 @@
                 'leninzd',
                 'kurskzd',
                 'kazanzd',
-                'habarovsk',
-                'omsk',
+                'habarovsk',],
+        cards3: ['omsk',
                 'ekaterinburg',
                 'samara',
                 'saint',
                 'volgograd',
                 'moscow',
                 'tumen',
-                'vladivostok'
-                ],
+                'vladivostok'],
         card : 0,
-        shuffling : false
+        selectedCard : 0,
+        shuffling : false,
+        selectedCards : [],
+        numToSelect : 5,
       };
     },
     computed: {
-        cardClass() {
-            if (this.card >= 0 && this.card < 10) return 'monopoly-card1';
-            if (this.card >= 10 && this.card < 20) return 'monopoly-card2';
-            if (this.card >= 20 && this.card < 28) return 'monopoly-card3';
-            return 'monopoly-card1';
-        }
+        
     },
-    mounted() {
-      //  this.cards.sort(() => Math.random() - 0.5);
-        var changeCardInterval = setInterval(() => {this.card = chance.integer({ min: 0, max: this.cards.length -1  })}, 300);
-        setTimeout(() => {clearInterval(changeCardInterval);}, 5000);
+    mounted() { 
+      this.selectCard();
     },
     methods: {
-      
+      cardClass(card) {
+            if (~this.cards1.indexOf(card)) return 'monopoly-card1';
+            if (~this.cards2.indexOf(card)) return 'monopoly-card2';
+            if (~this.cards3.indexOf(card)) return 'monopoly-card3';
+            return 'monopoly-card1';
+        },
+        backgroundImg(card) {
+            if (~this.cards1.indexOf(card)) return "../../static/monopoly-cards1.jpg";
+            if (~this.cards2.indexOf(card)) return "../../static/monopoly-cards2.jpg";
+            if (~this.cards3.indexOf(card)) return "../../static/monopoly-cards3.jpg";
+            return 'monopoly-card1';
+        },
+        selectCard() {
+            this.cards = [...this.cards1, ...this.cards2, ...this.cards3,...this.cards1, ...this.cards2, ...this.cards3,...this.cards1, ...this.cards2, ...this.cards3]
+            .filter(card => !~this.selectedCards.indexOf(card));
+            this.cards.sort(() => Math.random() - 0.5);
+            this.card = 0;
+            this.selectedCard = chance.integer({ min: 56, max: this.cards.length -1  });
+            var changeCard = () => {
+                this.card++; 
+                if (this.card < this.selectedCard) setTimeout(changeCard, 380 - 5*(this.selectedCard - this.card));
+                else {
+                    this.selectedCards.push(this.cards[this.selectedCard]);
+                    if (this.selectedCards.length < this.numToSelect) setTimeout(this.selectCard, 2000);
+                }
+            };
+            changeCard();
+        }
     },
   };
 </script>
 
 <style scoped>
 .main {
-  margin: 0 auto;
+  margin: 40px auto;
   background-color: #ffffff;
   text-align: center;
   display: flex;
@@ -89,7 +127,6 @@
 }
 
 .monopoly-card1, .monopoly-card2, .monopoly-card3 {
-    margin-top: 40px;
     width: 325px;
     height: 500px;
 }
@@ -115,13 +152,30 @@
 .monopoly-card1.tomsk, .monopoly-card2.leninzd, .monopoly-card3.volgograd {
     background-position: -425px -500px;
 }
-.monopoly-card1.archangelsk, .monopoly-card2.kurskzd, .monopoly-card3.moscow {
+.monopoly-card1.krasnodar, .monopoly-card2.kurskzd, .monopoly-card3.moscow {
     background-position: -750px -500px;
 }
-.monopoly-card1.krasnodar, .monopoly-card2.kazanzd, .monopoly-card3.tumen {
+.monopoly-card1.archangelsk, .monopoly-card2.kazanzd, .monopoly-card3.tumen {
     background-position: -1075px -500px;
 }   
-.monopoly-card1.chelyabinsk, .monopoly-card2.habarovsk, .monopole-card3.vladivostok {
+.monopoly-card1.chelyabinsk, .monopoly-card2.habarovsk, .monopoly-card3.vladivostok {
     background-position: -1400px -500px;
+}
+.carousel {
+    width: 325px;
+}
+.monopoly-card.carousel__item {
+    background-size: auto;
+}
+.selected-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    transform: scale(0.3, 0.3);
+    width: 100%;
+}
+.selected-cards .monopoly-card {
+    margin: 10px;
 }
 </style>
