@@ -93,8 +93,11 @@
                 this.card++; 
                 if (this.card < this.selectedCard) setTimeout(changeCard, 380 - 5*(this.selectedCard - this.card));
                 else {
-                    this.selectedCards.push(this.cards[this.selectedCard]);
-                    if (this.selectedCards.length < this.numToSelect) setTimeout(this.selectCard, 2000);
+                    setTimeout(() => { 
+                        this.selectedCards.push(this.cards[this.selectedCard]); 
+                        if (this.selectedCards.length < this.numToSelect) setTimeout(this.selectCard, 1000);
+                    }, 1000);
+                    
                 }
             };
             changeCard();
@@ -109,9 +112,9 @@
   background-color: #ffffff;
   text-align: center;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  max-width: 660px;
+  flex-direction: row;
+  justify-content: space-around;
+ /* max-width: 760px;*/
 }
 
 .monopoly-card1 {
@@ -127,55 +130,57 @@
 }
 
 .monopoly-card1, .monopoly-card2, .monopoly-card3 {
-    width: 325px;
-    height: 500px;
+    background-size: 523% auto;
 }
 
 .monopoly-card1.kaluga, .monopoly-card2.novosibirsk {
-    background-position: -100px 0;
+    background-position: 7% 0;
 }
 .monopoly-card1.kazan, .monopoly-card2.vodoprovod, .monopoly-card3.omsk {
-    background-position: -425px 0;
+    background-position: 31% 0;
 }
 .monopoly-card1.ufa, .monopoly-card2.electro, .monopoly-card3.ekaterinburg {
-    background-position: -750px 0;
+    background-position: 54% 0;
 }
 .monopoly-card1.rostov, .monopoly-card2.stavropol, .monopoly-card3.samara {
-    background-position: -1075px 0;
+    background-position: 77% 0;
 }
 .monopoly-card1.nizhniy, .monopoly-card2.rizhskayazd, .monopoly-card3.saint {
-    background-position: -1400px 0;
+    background-position: 100% 0;
 }
 .monopoly-card1.perm, .monopoly-card2.belgorod {
-    background-position: -100px -500px;
+    background-position: 7% 70%;
 }
 .monopoly-card1.tomsk, .monopoly-card2.leninzd, .monopoly-card3.volgograd {
-    background-position: -425px -500px;
+    background-position: 31% 70%;
 }
 .monopoly-card1.krasnodar, .monopoly-card2.kurskzd, .monopoly-card3.moscow {
-    background-position: -750px -500px;
+    background-position: 54% 70%;
 }
 .monopoly-card1.archangelsk, .monopoly-card2.kazanzd, .monopoly-card3.tumen {
-    background-position: -1075px -500px;
+    background-position: 77% 70%;
 }   
 .monopoly-card1.chelyabinsk, .monopoly-card2.habarovsk, .monopoly-card3.vladivostok {
-    background-position: -1400px -500px;
+    background-position: 100% 70%;
 }
 .carousel {
-    width: 325px;
+    width: 200px;
+    height: 294px;
 }
 .monopoly-card.carousel__item {
-    background-size: auto;
+    background-size: 523% auto;
 }
 .selected-cards {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     flex-wrap: wrap;
-    transform: scale(0.3, 0.3);
-    width: 100%;
+    width: 660px;
 }
 .selected-cards .monopoly-card {
     margin: 10px;
+    width: 120px;
+    height: 185px;
+    
 }
 </style>
