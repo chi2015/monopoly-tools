@@ -25,7 +25,7 @@
           </v-list-tile-content>
         </v-list-tile>
         <template v-for="tool in tools">
-          <v-list-tile @click="tool.goto" v-bind:key="tool.key">
+          <v-list-tile @click="tool.goto" v-bind:key="tool.key" :to="tool.link" :exact="tool.exact" >
             <v-list-tile-action>
               <v-icon>contact_mail</v-icon>
             </v-list-tile-action>
@@ -73,6 +73,12 @@ export default {
           link: '/randomcard',
           goto: function() { this.randomcard() }.bind(this)
         },
+        {
+          key: 'gameboard',
+          name: 'Gameboard',
+          link: '/gameboard',
+          goto: function() { this.gameboard() }.bind(this)
+        }
       ],
       drawer: true,
       
@@ -93,6 +99,9 @@ export default {
     },
     randomcard() {
       this.$router.push('/randomcard');
+    },
+    gameboard() {
+      this.$router.push('/gameboard');
     }
   },
 };
