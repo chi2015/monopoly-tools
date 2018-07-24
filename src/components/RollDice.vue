@@ -1,8 +1,8 @@
 <template>
   <div class="main">
     <div class="roll-buttons">
-      <div v-on:click="rollDiceMove" class="roll-move valign-text noselect">Roll Dice For Move</div>
-      <div v-on:click="rollDiceSimple" class="roll valign-text noselect">Roll Dice</div>
+       <v-btn block color="primary" dark @click="rollDiceMove">Roll Dice For Move</v-btn>
+       <v-btn block color="secondary" dark @click="rollDiceSimple">Roll Dice</v-btn>
     </div>
     <div class="dice-block">
     <div class="dice">
@@ -13,7 +13,7 @@
     </div>
     <div class="double-note">
       <div v-bind:class="[vAlign, doubleTextClass, warnClass]">{{doubleText}}</div>
-      <div v-on:click="resetDouble" class="double-reset valign-text noselect">Reset</div>
+      <v-btn block color="warning" dark @click="resetDouble">Reset</v-btn>
     </div>
   </div>
 </template>
@@ -133,14 +133,6 @@ export default {
   align-items:center;
 }
 
-.roll-move {
-  background-color: #6aa0f7;
-}
-
-.roll {
-  background-color: #4a72b2;
-}
-
 .dice-block {
   display: flex;
   flex-direction: column;
@@ -181,11 +173,6 @@ export default {
   background-color: #f44a4a;
 }
 
-.double-reset {
-  background-color: #666666;
-  color: #aaaaaa;
-}
-
 @media (min-width: 700px) {
   html, body {
     font-size: 45px;
@@ -219,11 +206,7 @@ export default {
   .main > div, .roll-buttons > div, .double-note > div {
     width: 100%;
   }
-  
-  .roll-move {
-    font-size: 7vw;
-  }
-  
+    
   .roll-buttons {
     height: 25%;
   }

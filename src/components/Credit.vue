@@ -1,46 +1,54 @@
 <template>
   <div class="main">
-    <div class="credit-head">Credit Line</div>
-    <div class="credit-summary">
-      <div class="months">
-        <div class="c-text">Months left:</div>
-        <div class="c-value">{{monthsLeft}}</div>
-      </div>
-      <div class="credit">
-        <div class="c-text">Credit value:</div>
-        <div class="c-value">{{credit}}</div>
-      </div>
-    </div>
+    <v-card>
+    <v-card-title><h3>Credit Line</h3></v-card-title>
+    <v-divider></v-divider>
+    <v-list dense>
+      <v-list-tile>
+        <v-list-tile-content>Months left:</v-list-tile-content>
+        <v-list-tile-content class="align-end">{{monthsLeft}}</v-list-tile-content>
+      </v-list-tile>
+       <v-list-tile>
+        <v-list-tile-content>Credit value:</v-list-tile-content>
+        <v-list-tile-content class="align-end">{{credit}}</v-list-tile-content>
+      </v-list-tile>
+       <v-list-tile v-if="minimalPay && !minPayDone">
+        <v-list-tile-content>Minimal pay:</v-list-tile-content>
+        <v-list-tile-content class="align-end">{{minimalPay}}</v-list-tile-content>
+      </v-list-tile>
+    </v-list>
+  </v-card>
     <div class="achieve-block">
       <div class="game-over" v-if="gameOver">GAME OVER!</div>
       <div class="credit-noclear" v-if="gameOver && !creditClear">You couldn't pay all credit! You're under arrest!</div>
       <div class="credit-clear" v-if="creditClear">Congratulations! You paid all credit!</div>
     </div>
     <div class="actions-block" v-if="!gameOver">
-      <a class="add-credit credit-btn" href="javascript:void(0)" v-if="!gotCredit" v-on:click="addCredit">Add another credit</a>
+      <v-btn color="warning" v-if="!gotCredit && monthsLeft>=12" @click="addCredit">Add another credit</v-btn>
       <div class="err-credit" v-if="errGet">You can't get credit anymore</div>
       <div class="pay-block" v-if="!minPayDone">
         <div class="pay-text">Pay for credit:</div>
         <input type="text" class="pay-input" v-model="payVal"/>
-        <a class="pay-btn credit-btn" href="javascript:void(0)" v-on:click="pay">Pay</a>
-        <div v-if="minimalPay" class="minimal-pay">Minimal pay: {{minimalPay}}</div>
+        <v-btn color="info" @click="pay">Pay</v-btn>
       </div>
       <div class="err-credit" v-if="errPay">Your minimal pay is {{minimalPay}}. You can't pay less!</div>
-      <a class="finish-btn credit-btn" href="javascript:void(0)"  v-if="!monthsLeft" v-on:click="finishGame">Finish game</a>
+      <v-btn color="success" @click="nextMonthUsual" v-if="!monthsLeft">Finish game</v-btn>
       <div class="next-month-block" v-if="monthsLeft">
-        <a class="next-month credit-btn" href="javascript:void(0)" v-on:click="nextMonthUsual">Next month</a>
-        <a class="next-month credit-btn" href="javascript:void(0)" v-on:click="nextMonthForce">Next month force (prison)</a>
+        <v-btn color="primary" @click="nextMonthUsual">Next month</v-btn>
+        <v-btn color="secondary" @click="nextMonthForce">Next month (from prison)</v-btn>
       </div>
       <div class="err-credit" v-if="errPayDone">You didn't make minimal pay this month yet!</div>
     </div>
-    <div class="reset-block"><a class="reset-btn credit-btn" href="javascript:void(0)" v-on:click="reset">Reset</a></div>
+    <div class="reset-block">
+      <v-btn v-if="monthsLeft" color="error" @click="reset">Reset</v-btn>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
     data() {
-      return {
+      return {       
         monthsLeft: 24,
         credit: 1000,
         percent: 1,
@@ -157,19 +165,7 @@
   margin-right: 2px;
   margin-bottom: 2px;
 }
-.credit-btn {
-  display: flex;
-  flex-direction: column;
-  height: 36px;
-  justify-content: center;
-  align-items: center;
-  user-select: none;
-  text-decoration: none;
-  color: #000000;
-}
-.credit-btn:active {
-  filter: brightness(85%);
-}
+
 .c-text {
   text-align: center;
   background-color: #999999;
@@ -203,10 +199,7 @@
   border: 1px black solid;
   line-height: normal;
 }
-.pay-btn {
-  background-color: #ff6600;
-  width: 60px;
-}
+
 .next-month-block {
   display: flex;
   flex-direction: row;
@@ -214,23 +207,7 @@
   justify-content: center;
   align-items: center;
 }
-.next-month {
-  width: 210px;
-  background-color: red;
-  margin: 5px 10px;
-}
-.next-month:first-child {
-  background-color:  #ff9999;
-}
-.reset-btn {
-  background-color: #aaaaaa;
-  width: 120px;
-}
-.add-credit {
-  background-color: #00802b;
-  width: 220px;
-  margin-bottom: 10px;
-}
+
 .err-credit {
   font-size: 12px;
   font-weight: normal;
@@ -252,11 +229,6 @@
 .credit-noclear {
   color: red;
   margin: 10px;
-}
-.finish-btn {
-  background-color: #99ccff;
-  width: 150px;
-  margin-bottom: 10px;
 }
 .reset-block {
   display: flex;
