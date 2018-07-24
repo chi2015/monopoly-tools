@@ -4,6 +4,8 @@ import HelloWorld from '@/components/HelloWorld';
 import RollDice from '@/components/RollDice';
 import Credit from '@/components/Credit';
 import RandomCard from '@/components/RandomCard';
+import Gameboard from '@/components/Gameboard';
+
 
 Vue.use(Router);
 
@@ -28,6 +30,11 @@ export default new Router({
       path: '/randomcard',
       name: 'RandomCard',
       component: RandomCard
+    },
+    {
+      path: '/gameboard',
+      name: 'Gameboard',
+      component: Gameboard
     }
   ],
 });
