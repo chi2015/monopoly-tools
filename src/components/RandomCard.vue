@@ -60,15 +60,16 @@
         card : 0,
         selectedCard : 0,
         shuffling : false,
-        selectedCards : [],
         numToSelect : 5,
       };
     },
     computed: {
-        
+        selectedCards() {
+            return this.$store.getters.CARDS;
+        }
     },
     mounted() { 
-      this.selectCard();
+      if (this.selectedCards.length < this.numToSelect) this.selectCard();
     },
     methods: {
       cardClass(card) {
@@ -94,7 +95,7 @@
                 if (this.card < this.selectedCard) setTimeout(changeCard, 380 - 5*(this.selectedCard - this.card));
                 else {
                     setTimeout(() => { 
-                        this.selectedCards.push(this.cards[this.selectedCard]); 
+                        this.$store.commit('ADD_CARD',this.cards[this.selectedCard]); 
                         if (this.selectedCards.length < this.numToSelect) setTimeout(this.selectCard, 1000);
                     }, 1000);
                     

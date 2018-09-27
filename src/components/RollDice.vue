@@ -33,7 +33,6 @@ export default {
   data() {
     return {
       rollingDiceVal: [chance.d6(), chance.d6()],
-      diceVal: [0, 0],
       doubleCnt: 0,
       vAlign: 'valign-text',
       doubleTextClass: 'double-text',
@@ -45,8 +44,8 @@ export default {
   },
   computed: {
     total() {
-      const res = this.diceVal[0] + this.diceVal[1];
-      return `Total: ${res}`;
+      console.log('total', this.$store.getters.TOTAL);
+      return `Total: ${this.$store.getters.TOTAL}`;
     },
     doubleText() {
       switch (this.doubleCnt) {
@@ -62,6 +61,9 @@ export default {
         default: return '';
       }
     },
+    diceVal() {
+      return this.$store.getters.DICE_VAL;
+    }
   },
   methods: {
     rollDiceSimple() {
@@ -84,7 +86,9 @@ export default {
     },
     stopDice(move) {
       this.rolling = false;
-      this.diceVal = [this.rollingDiceVal[0], this.rollingDiceVal[1]];
+      this.$store.commit("SET_DICE_VAL", this.rollingDiceVal);
+      console.log('DICE VAL LOCAL', this.diceVal[0], this.diceVal[1]);
+      console.log('TOTAL', this.total);
       if (move && this.diceVal[0] === this.diceVal[1]) this.doubleCnt += 1;
       else this.doubleCnt = 0;
       if (this.doubleCnt > 3) this.doubleCnt = 0;
