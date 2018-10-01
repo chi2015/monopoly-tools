@@ -86,7 +86,7 @@ export default {
     },
     stopDice(move) {
       this.rolling = false;
-      this.$store.commit("SET_DICE_VAL", this.rollingDiceVal);
+      this.$store.dispatch("setDiceVal", this.rollingDiceVal);
       console.log('DICE VAL LOCAL', this.diceVal[0], this.diceVal[1]);
       console.log('TOTAL', this.total);
       if (move && this.diceVal[0] === this.diceVal[1]) this.doubleCnt += 1;

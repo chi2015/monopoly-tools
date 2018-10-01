@@ -2,106 +2,55 @@
   <div class="main">
     <v-carousel :hide-controls="true" :hide-delimiters="true"
         :cycle="false"
-        v-bind:value="card">
+        v-bind:value="currentCard">
       <v-carousel-item
-        v-for="(card,index) in cards"
+        v-for="(card,index) in cardsDeck"
         :key="index"
         :src="backgroundImg(card)"
         :class="['monopoly-card', cardClass(card), card]"
       ></v-carousel-item>
     </v-carousel>
     <div class="selected-cards">
-        <div v-for="(card, index) in selectedCards" :key="index" :class="['monopoly-card', cardClass(card), card]"></div>
+        <div v-for="(card, index) in myCards" :key="index" :class="['monopoly-card', cardClass(card), card]"></div>
     </div>
   </div>
 </template>
 
 <script>
-    const Chance = require('chance');
-
-    // Instantiate Chance so it can be used
-    const chance = new Chance();
-
   export default {
     data() {
       return {
-        cards: [
-                
-                
-                ],
-        cards1: ['kaluga', 
-                'kazan', 
-                'ufa', 
-                'rostov', 
-                'nizhniy', 
-                'perm',
-                'tomsk',
-                'krasnodar',
-                'archangelsk',
-                'chelyabinsk',],
-        cards2: ['novosibirsk',
-                'vodoprovod',
-                'electro',
-                'stavropol',
-                'rizhskayazd',
-                'belgorod',
-                'leninzd',
-                'kurskzd',
-                'kazanzd',
-                'habarovsk',],
-        cards3: ['omsk',
-                'ekaterinburg',
-                'samara',
-                'saint',
-                'volgograd',
-                'moscow',
-                'tumen',
-                'vladivostok'],
-        card : 0,
-        selectedCard : 0,
-        shuffling : false,
-        numToSelect : 5,
       };
     },
     computed: {
-        selectedCards() {
-            return this.$store.getters.CARDS;
+        cardsDeck() {
+            return this.$store.getters.CARDS_DECK;
+        },
+        myCards() {
+           return this.$store.getters.MY_CARDS;
+        },
+        currentCard() {
+            return this.$store.getters.CURRENT_CARD;
         }
     },
     mounted() { 
-      if (this.selectedCards.length < this.numToSelect) this.selectCard();
+      this.selectCard();
     },
     methods: {
       cardClass(card) {
-            if (~this.cards1.indexOf(card)) return 'monopoly-card1';
-            if (~this.cards2.indexOf(card)) return 'monopoly-card2';
-            if (~this.cards3.indexOf(card)) return 'monopoly-card3';
+            if (~this.$store.getters.CARDS1.indexOf(card)) return 'monopoly-card1';
+            if (~this.$store.getters.CARDS2.indexOf(card)) return 'monopoly-card2';
+            if (~this.$store.getters.CARDS3.indexOf(card)) return 'monopoly-card3';
             return 'monopoly-card1';
         },
         backgroundImg(card) {
-            if (~this.cards1.indexOf(card)) return "../../static/monopoly-cards1.jpg";
-            if (~this.cards2.indexOf(card)) return "../../static/monopoly-cards2.jpg";
-            if (~this.cards3.indexOf(card)) return "../../static/monopoly-cards3.jpg";
+            if (~this.$store.getters.CARDS1.indexOf(card)) return "../../static/monopoly-cards1.jpg";
+            if (~this.$store.getters.CARDS2.indexOf(card)) return "../../static/monopoly-cards2.jpg";
+            if (~this.$store.getters.CARDS3.indexOf(card)) return "../../static/monopoly-cards3.jpg";
             return 'monopoly-card1';
         },
         selectCard() {
-            this.cards = [...this.cards1, ...this.cards2, ...this.cards3,...this.cards1, ...this.cards2, ...this.cards3,...this.cards1, ...this.cards2, ...this.cards3]
-            .filter(card => !~this.selectedCards.indexOf(card));
-            this.cards.sort(() => Math.random() - 0.5);
-            this.card = 0;
-            this.selectedCard = chance.integer({ min: 56, max: this.cards.length -1  });
-            var changeCard = () => {
-                this.card++; 
-                if (this.card < this.selectedCard) setTimeout(changeCard, 380 - 5*(this.selectedCard - this.card));
-                else {
-                    setTimeout(() => { 
-                        this.$store.commit('ADD_CARD',this.cards[this.selectedCard]); 
-                        if (this.selectedCards.length < this.numToSelect) setTimeout(this.selectCard, 1000);
-                    }, 1000);
-                    
-                }
-            };
-            changeCard();
+            this.$store.dispatch('selectCard');
         }
     },
   };
