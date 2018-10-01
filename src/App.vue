@@ -89,18 +89,23 @@ export default {
   },
   methods: {
     home() {
+      this.$store.dispatch('resetTimers');
       this.$router.push('/');
     },
     rolldice() {
+      this.$store.dispatch('resetTimers');
       this.$router.push('/rolldice');
     },
     credit() {
+      this.$store.dispatch('resetTimers');
       this.$router.push('/credit');
     },
     randomcard() {
+      this.$store.dispatch('resetTimers');
       this.$router.push('/randomcard');
     },
     gameboard() {
+      this.$store.dispatch('resetTimers');
       this.$router.push('/gameboard');
     }
   },
