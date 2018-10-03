@@ -1,30 +1,38 @@
+import Vue from 'vue';
+
 const state = {
     diceVal : [0,0],
-    total : 0
+    doubleCnt: 0
 }
 
 const getters = {
     DICE_VAL : state => {
         return state.diceVal;
       },
-      TOTAL: state => {
-        return state.total;
+      DOUBLE_CNT: state => {
+          return state.doubleCnt;
       }
 }
 
 const mutations = {
-    SET_DICE_VAL : (state, payload) => {
-        console.log('st dice val', payload);
-        state.diceVal[0] = payload[0];
-        state.diceVal[1] = payload[1];
-        state.total = state.diceVal.reduce((a, b) => a + b, 0);
-        console.log('diceVal', state.diceVal);
+    SET_DICE_VAL : ({ diceVal }, values) => {
+        Vue.set(diceVal, 0, values[0]);
+        Vue.set(diceVal, 1, values[1]);
+    },
+    SET_DOUBLE_CNT : (state , cnt) => {
+        state.doubleCnt = cnt;
     }
 }
 
 const actions = {
     setDiceVal({commit}, diceVal) {
         commit('SET_DICE_VAL', diceVal);
+    },
+    addDouble({commit}) {
+        commit('SET_DOUBLE_CNT', state.doubleCnt + 1 );
+    },
+    resetDouble({commit}) {
+        commit('SET_DOUBLE_CNT', 0);
     }
 }
 
