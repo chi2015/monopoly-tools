@@ -9,7 +9,7 @@
       <die v-bind:die-val="rollingDiceVal[0]"/>
       <die v-bind:die-val="rollingDiceVal[1]"/>
     </div>
-    <div class="total"><span v-if="!rolling">{{total}}</span></div>
+    <div class="total"><span v-if="!rolling && total">Total: {{total}}</span></div>
     </div>
     <div class="double-note">
       <div v-bind:class="[vAlign, doubleTextClass, warnClass]">{{doubleText}}</div>
@@ -27,25 +27,28 @@ const Chance = require('chance');
 const chance = new Chance();
 
 import Die from './Die';
+import Vue from 'vue';
 
 export default {
   name: 'RollDice',
   data() {
     return {
-      rollingDiceVal: [chance.d6(), chance.d6()],
-      doubleCnt: 0,
+      rollingDiceVal: [0,0],
       vAlign: 'valign-text',
       doubleTextClass: 'double-text',
       rolling: false,
     };
+  },
+  created() {
+     Vue.set(this.rollingDiceVal, 0 , this.$store.getters.DICE_VAL[0] || chance.d6());
+     Vue.set(this.rollingDiceVal, 1 , this.$store.getters.DICE_VAL[1] || chance.d6());
   },
   components: {
 		die : Die
   },
   computed: {
     total() {
-      console.log('total', this.$store.getters.TOTAL);
-      return `Total: ${this.$store.getters.TOTAL}`;
+      return this.$store.getters.DICE_VAL.reduce((a, b) => a + b, 0);
     },
     doubleText() {
       switch (this.doubleCnt) {
@@ -63,6 +66,9 @@ export default {
     },
     diceVal() {
       return this.$store.getters.DICE_VAL;
+    },
+    doubleCnt() {
+      return this.$store.getters.DOUBLE_CNT;
     }
   },
   methods: {
@@ -87,14 +93,14 @@ export default {
     stopDice(move) {
       this.rolling = false;
       this.$store.dispatch("setDiceVal", this.rollingDiceVal);
-      console.log('DICE VAL LOCAL', this.diceVal[0], this.diceVal[1]);
-      console.log('TOTAL', this.total);
-      if (move && this.diceVal[0] === this.diceVal[1]) this.doubleCnt += 1;
-      else this.doubleCnt = 0;
-      if (this.doubleCnt > 3) this.doubleCnt = 0;
+
+      if (move && this.diceVal[0] === this.diceVal[1]) 
+        this.$store.dispatch("addDouble");
+      else this.$store.dispatch("resetDouble");
+      if (this.doubleCnt > 3) this.$store.dispatch("resetDouble");
     },
     resetDouble() {
-      this.doubleCnt = 0;
+      this.$store.dispatch("resetDouble");
     },
   },
 };
