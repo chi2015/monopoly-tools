@@ -11,6 +11,9 @@ const getters = {
       },
       DOUBLE_CNT: state => {
           return state.doubleCnt;
+      },
+      TOTAL: state => {
+        return state.diceVal.reduce((a, b) => a + b, 0);
       }
 }
 
@@ -29,7 +32,7 @@ const actions = {
         commit('SET_DICE_VAL', diceVal);
     },
     addDouble({commit}) {
-        commit('SET_DOUBLE_CNT', state.doubleCnt + 1 );
+        commit('SET_DOUBLE_CNT', state.doubleCnt < 3 ? state.doubleCnt + 1 : 0 );
     },
     resetDouble({commit}) {
         commit('SET_DOUBLE_CNT', 0);
