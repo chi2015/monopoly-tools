@@ -20,8 +20,8 @@
   </v-card>
     <div class="achieve-block">
       <div class="game-over" v-if="gameOver">GAME OVER!</div>
-      <div class="credit-noclear" v-if="gameOver && !creditClear">You couldn't pay all credit! You're under arrest!</div>
-      <div class="credit-clear" v-if="creditClear">Congratulations! You paid all credit!</div>
+      <div class="credit-noclear" v-if="gameOver && credit > 0">You couldn't pay all credit! You're under arrest!</div>
+      <div class="credit-clear" v-if="credit<=0">Congratulations! You paid all credit!</div>
     </div>
     <div class="actions-block" v-if="!gameOver">
       <v-btn color="warning" v-if="!gotCredit && monthsLeft>=12" @click="addCredit">Add another credit</v-btn>
@@ -49,41 +49,42 @@
   export default {
     data() {
       return {       
-        monthsLeft: 24,
-        credit: 1000,
-        percent: 1,
-        creditVal: 200,
-        gotCredit: true,
-        payVal: 0,
         errPayDone: false,
         errPay: false,
         errGet: false,
-        creditClear: false,
-        gameOver: false,
-        minPayDone: false,
+        gameOver: false
       };
     },
     computed: {
       minimalPay() {
-        return this.monthsLeft < 12 ? Math.ceil(this.credit / (this.monthsLeft + 1)) : 0;
+        return this.$store.getters.MINIMAL_PAY;
       },
+      monthsLeft() {
+        return this.$store.getters.MONTHS_LEFT;
+      },
+      credit() {
+        return this.$store.getters.CREDIT;
+      },
+      payVal() {
+        return this.$store.getters.PAY_VAL;
+      },
+      minPayDone() {
+        return this.$store.getters.MIN_PAY_DONE;
+      },
+      gotCredit() {
+        return this.$store.getters.GOT_CREDIT;
+      }
     },
     methods: {
       pay() {
-        if (this.minPayDone) return;
         if (this.payVal < this.minimalPay) { this.errPay = true; return; }
         this.errPay = false;
-        this.credit -= this.payVal;
-        this.minPayDone = true;
+        this.$store.dispatch("pay");
         this.errPayDone = false;
-        if (this.credit <= 0) { this.credit = 0; this.creditClear = true; }
       },
       addCredit() {
-        if (this.gotCredit) return;
         if (this.monthsLeft < 12) { this.errGet = true; return; }
-        this.credit += this.creditVal;
-        this.gotCredit = true;
-        this.creditClear = false;
+        this.$store.dispatch("addCredit");
       },
       nextMonthUsual() {
         this.nextMonth(false);
@@ -95,27 +96,19 @@
         if (!force) {
           if (this.monthsLeft < 12 && !this.minPayDone) { this.errPayDone = true; return; }
         }
+        this.$store.dispatch("nextMonth");
         this.errPayDone = false;
-        this.monthsLeft -= 1;
-        this.credit = Math.ceil((this.credit * (100 + this.percent)) / 100);
         this.errGet = false;
-        this.minPayDone = false;
-        this.gotCredit = false;
-        this.payVal = this.minimalPay;
       },
       finishGame() {
         this.gameOver = true;
       },
       reset() {
-        this.monthsLeft = 24;
-        this.credit = 1000;
-        this.payVal = 0;
+       this.$store.dispatch("reset");
         this.errPayDone = false;
         this.errPay = false;
         this.errGet = false;
         this.gameOver = false;
-        this.minPayDone = false;
-        this.creditClear = false;
       },
     },
   };

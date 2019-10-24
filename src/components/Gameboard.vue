@@ -64,9 +64,10 @@ export default {
     };
   },
   created() {
-    setInterval(() => {
+    /*setInterval(() => {
         this.$store.dispatch("moveChip", 7);
-    },3000)
+    },3000)*/
+    console.log('chip pos', this.chipPos);
   },
   computed : {
     fieldsToBlocks : function() {

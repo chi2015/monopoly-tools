@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     total() {
-      return this.$store.getters.DICE_VAL.reduce((a, b) => a + b, 0);
+      return this.$store.getters.TOTAL;
     },
     doubleText() {
       switch (this.doubleCnt) {
@@ -93,11 +93,18 @@ export default {
     stopDice(move) {
       this.rolling = false;
       this.$store.dispatch("setDiceVal", this.rollingDiceVal);
-
-      if (move && this.diceVal[0] === this.diceVal[1]) 
-        this.$store.dispatch("addDouble");
-      else this.$store.dispatch("resetDouble");
-      if (this.doubleCnt > 3) this.$store.dispatch("resetDouble");
+      if (this.diceVal[0] !== this.diceVal[1])
+        this.resetDouble();
+      if (move) {
+        setTimeout(() => {
+          this.$router.push('/gameboard');
+          setTimeout(() => {
+            this.$store.dispatch("moveChip", this.total);
+          }, 1000);
+        }, 1000);
+        if (this.diceVal[0] === this.diceVal[1]) 
+          this.$store.dispatch("addDouble");
+      }
     },
     resetDouble() {
       this.$store.dispatch("resetDouble");
@@ -189,7 +196,7 @@ export default {
   }
   
   .dice-block {
-    height: 450px;
+    height: 80%;
   }
   
   .roll-buttons, .double-note {
